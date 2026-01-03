@@ -9,12 +9,8 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
-  output: "export",
-  images: {
-    unoptimized: true,
-  },
-  // Enable Turbopack with empty config to silence the warning
-  // next-pwa uses webpack, so we need to use webpack for build
+  // Remove output: "export" for Vercel - it handles Next.js natively
+  // For self-hosting static build, use: output: "export"
   turbopack: {},
 };
 
