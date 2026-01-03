@@ -1,0 +1,20 @@
+# Task: [DESCRIBE WHAT YOU WANT]
+
+## Requirements
+- [ ] Requirement 1
+- [ ] Requirement 2
+- [ ] Requirement 3
+
+## Success Criteria
+- All requirements implemented
+- Tests passing
+- No linter errors
+
+## Instructions
+Work through requirements incrementally. After each change, verify it works.
+
+When ALL requirements are complete and verified, output exactly:
+<promise>RALPH_DONE</promise>
+
+If stuck after multiple attempts, document blockers and still output RALPH_DONE.
+
