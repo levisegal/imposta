@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { getCategoryNames, Category } from "../lib/words";
+import { getSavedPlayers, savePlayers } from "../lib/storage";
 
 interface PlayerSetupProps {
   onStart: (players: string[], category?: Category) => void;
@@ -13,6 +14,22 @@ export function PlayerSetup({ onStart }: PlayerSetupProps) {
   const [error, setError] = useState<string | null>(null);
 
   const categories = getCategoryNames();
+
+  // Load saved players on mount
+  useEffect(() => {
+    const saved = getSavedPlayers();
+    if (saved) {
+      setPlayers(saved);
+    }
+  }, []);
+
+  // Save players whenever they change (debounced by state update)
+  useEffect(() => {
+    const hasContent = players.some((p) => p.trim().length > 0);
+    if (hasContent) {
+      savePlayers(players);
+    }
+  }, [players]);
 
   const addPlayer = useCallback(() => {
     if (players.length < 10) {

@@ -1,6 +1,7 @@
 import { GameResult } from "./game";
 
 const HISTORY_KEY = "imposter-game-history";
+const PLAYERS_KEY = "imposter-game-players";
 const MAX_HISTORY = 100;
 
 export function saveGameResult(result: GameResult): void {
@@ -32,6 +33,23 @@ export function getGameHistory(): GameResult[] {
 export function clearGameHistory(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem(HISTORY_KEY);
+}
+
+export function savePlayers(players: string[]): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(PLAYERS_KEY, JSON.stringify(players));
+}
+
+export function getSavedPlayers(): string[] | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const data = localStorage.getItem(PLAYERS_KEY);
+    if (!data) return null;
+    const players = JSON.parse(data) as string[];
+    return players.length >= 3 ? players : null;
+  } catch {
+    return null;
+  }
 }
 
 export function getStats(): {

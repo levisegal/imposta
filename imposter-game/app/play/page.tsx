@@ -21,6 +21,7 @@ export default function PlayPage() {
   const [game, setGame] = useState<GameState | null>(null);
   const [loading, setLoading] = useState(true);
   const [showQuickVote, setShowQuickVote] = useState(false);
+  const [showRules, setShowRules] = useState(false);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("current-game");
@@ -144,6 +145,7 @@ export default function PlayPage() {
             word={game.word}
             onNext={handleRevealNext}
             isLast={game.currentPlayerIndex === game.players.length - 1}
+            firstSpeaker={game.players[0]?.name ?? ""}
           />
         )}
 
@@ -157,21 +159,54 @@ export default function PlayPage() {
               </p>
             </div>
 
+            <div className="bg-gradient-to-r from-blue-900/40 to-blue-800/30 border border-blue-700/50 rounded-2xl p-5 max-w-sm w-full text-center">
+              <p className="text-xs font-medium text-blue-400 uppercase tracking-wider mb-2">
+                First to speak
+              </p>
+              <p className="text-2xl font-bold text-white">
+                {game.players[0]?.name}
+              </p>
+            </div>
+
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 max-w-sm w-full">
               <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-4">
-                Players in this round
+                Speaking order
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {game.players.map((player) => (
-                  <span
+              <div className="flex flex-col gap-2">
+                {game.players.map((player, idx) => (
+                  <div
                     key={player.id}
-                    className="px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-full text-sm"
+                    className={`flex items-center gap-3 px-4 py-2 rounded-xl text-sm ${
+                      idx === 0
+                        ? "bg-blue-900/30 border border-blue-700/50 text-blue-200"
+                        : "bg-zinc-800 border border-zinc-700"
+                    }`}
                   >
-                    {player.name}
-                  </span>
+                    <span className="text-zinc-500 font-mono text-xs w-5">{idx + 1}.</span>
+                    <span>{player.name}</span>
+                  </div>
                 ))}
               </div>
             </div>
+
+            <button
+              onClick={() => setShowRules(!showRules)}
+              className="text-zinc-500 hover:text-zinc-300 text-sm underline underline-offset-2 transition-colors"
+            >
+              {showRules ? "Hide rules" : "How to play"}
+            </button>
+
+            {showRules && (
+              <div className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-5 max-w-sm w-full text-sm text-zinc-400 space-y-3">
+                <p><span className="text-white font-medium">1.</span> Take turns giving <span className="text-white">one-word clues</span> related to the secret word.</p>
+                <p><span className="text-white font-medium">2.</span> The imposter doesn&apos;t know the word and must <span className="text-white">bluff</span>.</p>
+                <p><span className="text-white font-medium">3.</span> After everyone speaks, <span className="text-white">discuss</span> who seemed suspicious.</p>
+                <p><span className="text-white font-medium">4.</span> Vote on who you think is the imposter!</p>
+                <p className="text-xs text-zinc-600 pt-2 border-t border-zinc-800">
+                  Tip: Generic clues help imposters hide; specific clues expose them but risk giving too much away.
+                </p>
+              </div>
+            )}
 
             <div className="flex flex-col gap-3 w-full max-w-sm">
               <button

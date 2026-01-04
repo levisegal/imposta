@@ -44,7 +44,7 @@ export function createGame(playerNames: string[], category?: Category): GameStat
     votedFor: null,
   }));
 
-  // Shuffle players so imposter position isn't predictable based on entry order
+  // Shuffle players for random speaking order
   shuffleArray(players);
 
   return {

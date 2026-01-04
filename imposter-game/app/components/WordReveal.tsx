@@ -8,9 +8,10 @@ interface WordRevealProps {
   word: string;
   onNext: () => void;
   isLast: boolean;
+  firstSpeaker: string;
 }
 
-export function WordReveal({ player, word, onNext, isLast }: WordRevealProps) {
+export function WordReveal({ player, word, onNext, isLast, firstSpeaker }: WordRevealProps) {
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,11 @@ export function WordReveal({ player, word, onNext, isLast }: WordRevealProps) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] gap-6 p-4">
+      {/* First speaker indicator */}
+      <div className="text-center text-xs text-zinc-500 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800">
+        🎯 <span className="font-medium text-zinc-400">{firstSpeaker}</span> speaks first
+      </div>
+
       {/* Player indicator */}
       <div className="text-center animate-slide-up">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-800/50 rounded-full mb-4">
