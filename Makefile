@@ -1,4 +1,4 @@
-.PHONY: dev build serve install clean stop tunnel
+.PHONY: dev build serve install clean stop tunnel deploy
 
 # Development server with hot reload
 dev: stop
@@ -27,3 +27,7 @@ stop:
 # Expose local server via ngrok for phone testing
 tunnel:
 	ngrok http 3000
+
+# Deploy to Vercel (first run: vercel login)
+deploy:
+	cd imposter-game && vercel --prod
